@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Lab Tints & Visuals LLC | Request Service</title>
+  <link rel="icon" type="image/png" href="favicon.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    #protected-content {
+      display: none;
+    }
+
+    #login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f8f9fa;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    :root {
+      --bg: #f9fafb;
+      --text: #111827;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #f97316;
+      --input-bg: #ffffff;
+      --input-text: #111827;
+      --input-border: #d1d5db;
+    }
+
+    body.dark {
+      --bg: #0b0f19;
+      --text: #e5e7eb;
+      --card: #111827;
+      --muted: #9ca3af;
+      --input-bg: #1f2937;
+      --input-text: #f9fafb;
+      --input-border: #374151;
+    }
+
+    body.dark .text-muted {
+      color: #d1d5db !important;
+      /* A soft light grey/white */
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      padding-bottom: 160px;
+      transition: .3s;
+    }
+
+    h1,
+    h2,
+    h5 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 40px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b0f19, #1f2933);
+      color: white;
+      padding: 90px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, .15);
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .card-box {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+    }
+
+    /* ---------- INSTAGRAM BUTTON THEME-AWARE ---------- */
+    .btn-follow-insta {
+      border: 1px solid var(--text);
+      color: var(--text);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-follow-insta:hover {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: white !important;
+      transform: scale(1.05);
+    }
+
+    .service-card {
+      border-left: 4px solid var(--accent);
+    }
+
+    .service-icon {
+      font-size: 36px;
+      color: var(--accent);
+    }
+
+    .form-control {
+      background: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid var(--input-border);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 .15rem rgba(249, 115, 22, .25);
+    }
+
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 18px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      z-index: 9999;
+      text-decoration: none;
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-size: 22px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    .spinner-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    /* ---------- DARK MODE FORM FIXES ---------- */
+    body.dark .form-control,
+    body.dark select,
+    body.dark textarea {
+      background-color: #1f2937;
+      color: #f9fafb;
+      border: 1px solid #374151;
+    }
+
+    body.dark .form-control::placeholder,
+    body.dark textarea::placeholder {
+      color: #9ca3af;
+      opacity: 1;
+    }
+
+    body.dark select option {
+      background-color: #1f2937;
+      color: #f9fafb;
+    }
+
+    body.dark .form-control:focus,
+    body.dark select:focus,
+    body.dark textarea:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 0.15rem rgba(249, 115, 22, 0.35);
+      background-color: #1f2937;
+      color: #ffffff;
+    }
+
+    body.dark .alert-success {
+      background-color: rgba(34, 197, 94, 0.15);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    body.dark .alert-danger {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: #fecaca;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    body.dark #submitBtn {
+      background-color: #111827;
+      border: 1px solid #374151;
+      color: #f9fafb;
+    }
+
+    body.dark #submitBtn:hover {
+      background-color: #1f2937;
+    }
+
+    /* ---------- TESTIMONIAL CARDS ---------- */
+    .testimonial-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      height: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    body.dark .testimonial-card {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .testimonial-card .stars {
+      color: #facc15;
+      font-size: 18px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-card p {
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .testimonial-card span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    body.dark .google-rating-text {
+      color: #f9fafb !important;
+    }
+
+    /* ---------- PREMIUM SERVICE CARDS ---------- */
+    .service-card-premium {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 28px 24px;
+      height: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .service-card-premium:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    }
+
+    body.dark .service-card-premium {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .service-card-premium h5 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1.5px;
+      margin-top: 14px;
+      margin-bottom: 10px;
+    }
+
+    .service-card-premium p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .service-icon {
+      font-size: 38px;
+      color: var(--accent);
+    }
+
+    body.dark .services-subtext {
+      color: #f9fafb !important;
+    }
+
+  /* Locate this section in your <style> block */
+#preloader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0b0f19; /* Change from #fff to your dark bg color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 2.5s ease-out; /* Increased for a smoother, slower fade */
+
+}
+
+ #preloader-overlay img {
+  max-width: 25%;
+  margin-bottom: 20px;
+  animation: logoZoom 4s infinite alternate; /* Adds a slow pulse/zoom */
+}
+
+@keyframes logoZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+    /* Gallery Styling */
+    .carousel-item {
+      height: 450px;
+      background: #000;
+    }
+
+    .carousel-item img {
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+
+    .carousel-caption {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 12px;
+      bottom: 40px;
+      backdrop-filter: blur(5px);
+    }
+
+    .carousel-caption h5 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--accent);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .carousel-item {
+        height: 350px;
+      }
+
+      .carousel-caption h5 {
+        font-size: 1.2rem;
+      }
+
+      .carousel-caption p {
+        font-size: 0.8rem;
+      }
+    }
+
+    .insta-top-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      /* Positions it on the left */
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .15);
+      color: white;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+      z-index: 1000;
+    }
+
+    .insta-top-link:hover {
+      background: rgba(255, 255, 255, .3);
+      color: #f97316;
+      /* Changes to your accent orange on hover */
+    }
+
+    /* Ensure it stays white in dark mode too */
+    body.dark .insta-top-link {
+      color: white;
+      background: rgba(255, 255, 255, .1);
+    }
+
+    /* Mobile Adjustments for Hero Section */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 40px 15px !important;
+        /* Reduces top/bottom padding from 90px to 40px */
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+        /* Slightly smaller heading for better fit */
+      }
+
+      #request {
+        padding-top: 20px !important;
+        /* Reduces space above the header */
+      }
+
+      #request h2 {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <div id="preloader-overlay">
+    <img width="100%" src="logo.jpg" alt="The Lab Tints & Visuals LLC">
+  </div>
+
+  <div id="main-content" style="display: none;">
+    <section class="hero">
+      <a href="https://www.instagram.com/the_lab_tints_visualsllc/" target="_blank" class="insta-top-link">
+        <i class="bi bi-instagram"></i>
+      </a>
+      <button class="theme-toggle" id="themeToggle">☀️</button>
+      <img width="300px" src="logo.png" alt="The Lab Tints & Visuals LLC">
+
+      <h1>The Lab Tints & Visuals LLC</h1>
+      <p>Automotive • Vinyl Wrapping • Residential</p>
+      <!-- <a href="tel:3049162052" class="btn btn-dark btn-lg mt-4 fw-bold">Call for an Estimate</a> -->
+      <a href="https://app.squareup.com/appointments/book/x4jp12s4s80fgx/L2DA08QR9AZBE/start?hl=en-US&gei=OoJ-aZX5JovJp84PmJTuuQk&rwg_token=AFd1xnGo3DDrItElV3frlwOg8FByLvpG3h2mrFBjZE4dVapKLmn7vM5gC7P15yd67miPYiVjaiXXdOfeDRYoR29sQLPI-Zbdfw%3D%3D"
+        class="btn btn-warning btn-lg mt-4 fw-bold">Book Online</a>
+    </section>
+
+    <section class="container py-5">
+      <h2 class="text-center mb-3">Services Offered</h2>
+      <p class="text-center text-muted mb-5 services-subtext">
+        Professional window tint solutions for vehicles and homes
+      </p>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="service-card-premium">
+            <div class="service-icon bi bi-car-front-fill"></div>
+            <h5>Automotive Tint</h5>
+            <p>Protect your interior, increase privacy, and block harmful UV rays for a cooler, more comfortable ride.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="service-card-premium">
+            <div class="service-icon bi bi-sun-fill"></div>
+            <h5>Automotive Detailing</h5>
+            <p>Protect your paint, interior, and increase privacy for a cooler, more comfortable ride.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="service-card-premium">
+            <div class="service-icon bi bi-wind"></div>
+            <h5>Windshield Strip</h5>
+            <p>Reduce sun glare and eye strain for safer, more relaxed daytime driving.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="service-card-premium">
+            <div class="service-icon bi bi-house-door-fill"></div>
+            <h5>Residential Tint</h5>
+            <p>Improve comfort, privacy, and energy efficiency throughout your home.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5" id="work-gallery">
+      <div class="card-box">
+        <div class="text-center mb-4">
+          <i class="bi bi-images display-4 text-warning"></i>
+          <h2 class="mt-2">Our Recent Projects</h2>
+          <p class="text-muted">Swipe to see our latest transformations</p>
+        </div>
+
+        <div id="workCarousel" class="carousel slide" data-bs-ride="false">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="3"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="4"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="5"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="6"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="7"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="8"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="9"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="10"></button>
+            <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="11"></button>
+          </div>
+
+          <div class="carousel-inner rounded-4 shadow">
+            <div class="carousel-item active">
+              <img src="honda-civic-20-percent-tint.jpg" class="d-block w-100" alt="Honda Civic 20% Tint">
+              <div class="carousel-caption">
+                <h5>Honda Civic - BEFORE</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="honda-civic-20-percent-tint-2.jpg" class="d-block w-100" alt="Honda Civic 20% Tint">
+              <div class="carousel-caption">
+                <h5>Honda Civic - AFTER</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="5-percent-tint-1.jpg" class="d-block w-100" alt="Charger - 5% Window Tint">
+              <div class="carousel-caption">
+                <h5>Charger - 5% Window Tint</h5>
+                <p>5% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="5-percent-tint-2.jpg" class="d-block w-100" alt="Charger - 5% Window Tint">
+              <div class="carousel-caption">
+                <h5>Charger - 5% Window Tint</h5>
+                <p>5% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="5-percent-tint-3.jpg" class="d-block w-100" alt="Charger - 5% Window Tint">
+              <div class="carousel-caption">
+                <h5>Charger - 5% Window Tint</h5>
+                <p>5% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="new-edge-mustang-20-percent-tint.jpg" class="d-block w-100" alt="Mustang - 20% Window Tint">
+              <div class="carousel-caption">
+                <h5>Mustang - 20% Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="honda-civic-before.jpg" class="d-block w-100" alt="Honda Civic - 20% Window Tint">
+              <div class="carousel-caption">
+                <h5>Honda Civic - 20% Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="honda-civic-after.jpg" class="d-block w-100" alt="Honda Civic - 20% Window Tint">
+              <div class="carousel-caption">
+                <h5>Honda Civic - 20% Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="honda-civic-after-1.jpg" class="d-block w-100" alt="Honda Civic - 20% Window Tint">
+              <div class="carousel-caption">
+                <h5>Honda Civic - 20% Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <img src="ford-edge-20-percent-tint-before.jpg" class="d-block w-100" alt="Ford Edge Window Tint">
+              <div class="carousel-caption">
+                <h5>Ford Edge - Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="ford-edge-20-percent-tint-after.jpg" class="d-block w-100" alt="Ford Edge Window Tint">
+              <div class="carousel-caption">
+                <h5>Ford Edge - Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="ford-edge-20-percent-tint-after-2.jpg" class="d-block w-100" alt="Ford Edge Window Tint">
+              <div class="carousel-caption">
+                <h5>Ford Edge - Window Tint</h5>
+                <p>20% Full Windshield Tint</p>
+              </div>
+            </div>
+
+            <!-- <div class="carousel-item">
+              <img src="logo.png" class="d-block w-100" alt="The Lab Tints Shop">
+              <div class="carousel-caption">
+                <h5>The Lab Tints & Visuals</h5>
+                <p>Marietta, Ohio Location</p>
+              </div>
+            </div> -->
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#workCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#workCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="https://www.instagram.com/the_lab_tints_visualsllc/" target="_blank"
+            class="btn btn-follow-insta btn-sm rounded-pill px-4">
+            <i class="bi bi-instagram me-2"></i>Follow @the_lab_tints_visualsllc for more
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5 pb-2">
+      <h2 class="text-center mb-4">Trusted by Local Drivers</h2>
+      <p class="text-center text-muted mb-5 google-rating-text">⭐ Rated 4.6 on Google with 30+ verified reviews</p>
+      <div class="row g-4 mb-5">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Fast, professional, and the tint came out perfect. Best shop in the area.”</p>
+            <span>— Google Review</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Clean install, great communication, and fair pricing. Highly recommend.”</p>
+            <span>— Google Review</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Quick response time, flexible schedule and accommodating. Tint looks great!”</p>
+            <span>— Google Review</span>
+          </div>
+        </div>
+        <p class="text-center text-muted mb-5"><a
+            href="https://www.google.com/search?q=THE+LAB+TINTS+%26+VISUALS+LLC&rlz=1C1UEAD_enUS1092US1092">See more
+            reviews on Google</a></p>
+
+      </div>
+    </section>
+
+    <section id="request" class="container pt-2 pb-5">
+      <h2 class="text-center mb-4">Request Service</h2>
+      <form id="service-form" class="mx-auto" style="max-width:600px;">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
+        <input type="hidden" name="form_time" id="form_time">
+        <input type="hidden" name="token" value="tint-site-2026">
+        <input class="form-control mb-3" name="name" placeholder="Full Name" required>
+        <input class="form-control mb-3" id="phone" name="phone" placeholder="Phone Number" required>
+        <input class="form-control mb-3" name="email" type="email" placeholder="Email Address" required>
+        <select class="form-control mb-3" name="service" required>
+          <option value="">Select Service</option>
+          <option>Automotive Window Tint</option>
+          <option>Automotive Detailing</option>
+          <option>Windshield Strip</option>
+          <option>Residential Window Tint</option>
+        </select>
+        <textarea class="form-control mb-3" name="notes" rows="3" placeholder="Optional notes"></textarea>
+        <div id="formMessage" class="alert d-none"></div>
+        <button id="submitBtn" class="btn btn-dark w-100 fw-bold">Submit Request</button>
+      </form>
+    </section>
+
+    <!-- <a href="#request" class="sticky-cta">Request Service</a> -->
+    <a href="tel:3049162052" class="fw-bold sticky-cta">📞 Call for an Estimate</a>
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <div id="submitSpinner" class="spinner-overlay">
+      <div class="text-center text-white">
+        <div class="spinner-border text-warning mb-3"></div>
+        <div class="fw-bold">Submitting request…</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+    window.addEventListener('load', function () {
+      const preloader = document.getElementById('preloader-overlay');
+      const mainContent = document.getElementById('main-content');
+      mainContent.style.display = 'block';
+      preloader.style.opacity = '0';
+      setTimeout(function () {
+        preloader.style.display = 'none';
+      }, 2500);
+    });
+
+    document.getElementById("form_time").value = Date.now();
+
+    const toggle = document.getElementById("themeToggle");
+
+    // Set the initial icon to the Sun since we are starting in Dark Mode
+    toggle.textContent = "☀️";
+
+    toggle.onclick = () => {
+      document.body.classList.toggle("dark");
+      // If body HAS 'dark', show Sun (to switch to light); else show Moon
+      toggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    };
+
+    const scrollBtn = document.getElementById("scrollTop");
+    window.onscroll = () => scrollBtn.style.display = window.scrollY > 400 ? "flex" : "none";
+    scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const form = document.getElementById("service-form");
+    const spinner = document.getElementById("submitSpinner");
+    const submitBtn = document.getElementById("submitBtn");
+    const message = document.getElementById("formMessage");
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwEuZ6hMgV-KW36iGkupsk5J8KCGQulgNswqnyJb79lMj0N-jzXEZ9JpS8PW97JKo2i/exec";
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      spinner.style.display = "flex";
+      submitBtn.disabled = true;
+      message.className = "alert d-none";
+      // Phone number validation
+      const phoneNumber = document.getElementById('phone').value;
+      if (!/^\d{10}$/.test(phoneNumber)) {
+        message.className = "alert alert-danger";
+        message.textContent = "❌ Invalid phone number. Please enter 10 digits.";
+        spinner.style.display = "none";
+        submitBtn.disabled = false;
+        return;
+      }
+      try {
+        const res = await fetch(SCRIPT_URL, { method: "POST", body: new FormData(form) });
+        const text = await res.text();
+        if (!res.ok || text.includes("BOT")) throw new Error();
+        message.className = "alert alert-success";
+        message.textContent = "✅ Request received! We’ll call you shortly.";
+        form.reset();
+      } catch {
+        message.className = "alert alert-danger";
+        message.textContent = "❌ Submission failed. Please try again.";
+      } finally {
+        spinner.style.display = "none";
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+
+</html>
