@@ -288,6 +288,59 @@
     body.dark .google-rating-text, .text-muted {
       color: #ffffff !important
     }
+    .hero {
+  /* Replace 'hero-bg.jpg' with your actual image path */
+background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('hero-bg.jpg');  
+  /* Ensures the image covers the entire area */
+  background-size: cover;
+  
+  /* Centers the image */
+  background-position: center;
+  
+  /* Keeps the image from repeating */
+  background-repeat: no-repeat;
+  
+  /* Optional: Adjust height to give the hero some "breathing room" */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.sticky-cta-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex; /* This aligns them side-by-side */
+  gap: 0; /* Change to '1px' if you want a tiny divider line */
+  z-index: 1000; /* Keeps it above other content */
+}
+
+.cta-button {
+  flex: 1; /* This forces both buttons to take up exactly 50% width */
+  text-align: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Style each button differently to make them pop */
+.call-btn {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.book-btn {
+  background-color: #000000; /* Or your preferred brand blue */
+  color: #ffffff;
+}
+.text-muted, .text-body-secondary {
+    color: #a0a0a0 !important; /* A medium-light gray that is visible on both black and white */
+}
   </style>
 </head>
 
@@ -298,17 +351,26 @@
 
   <div id="main-content" style="display: none;">
     <section class="hero">
-      <a href="https://www.instagram.com/the_lab_tints_visualsllc/" target="_blank" class="insta-top-link">
-        <i class="bi bi-instagram"></i>
+      <a href="/" target="_blank" class="insta-top-link m-3">
+        <!-- <i class="bi bi-instagram"></i> -->
+      <img src="logo.png" width="100" />
       </a>
       <button class="theme-toggle" id="themeToggle">☀️</button>
       <img width="300px" src="logo.png" alt="The Lab Tints & Visuals LLC">
 
-      <h1>The Lab Tints & Visuals LLC</h1>
+      <h1 class="my-1">The Lab Tints & Visuals LLC</h1>
       <p>Automotive Tint • Residential Tint • Vinyl Wrapping </p>
-      <!-- <a href="tel:3049162052" class="btn btn-dark btn-lg mt-4 fw-bold">Call for an Estimate</a> -->
-      <a href="https://app.squareup.com/appointments/book/x4jp12s4s80fgx/L2DA08QR9AZBE/start?hl=en-US&gei=OoJ-aZX5JovJp84PmJTuuQk&rwg_token=AFd1xnGo3DDrItElV3frlwOg8FByLvpG3h2mrFBjZE4dVapKLmn7vM5gC7P15yd67miPYiVjaiXXdOfeDRYoR29sQLPI-Zbdfw%3D%3D"
-        class="btn btn-outline-light btn-lg mt-4 fw-bold">Book Online</a>
+      <div class="row">
+        <div class="w-100">
+        <a href="tel:3049162052" class="btn btn-light btn-lg mt-4 fw-bold">📞 (304) 916-2052</a>
+        </div>
+        <div class="w-100">
+<a href="https://app.squareup.com/appointments/book/x4jp12s4s80fgx/L2DA08QR9AZBE/start?hl=en-US&gei=OoJ-aZX5JovJp84PmJTuuQk&rwg_token=AFd1xnGo3DDrItElV3frlwOg8FByLvpG3h2mrFBjZE4dVapKLmn7vM5gC7P15yd67miPYiVjaiXXdOfeDRYoR29sQLPI-Zbdfw%3D%3D"
+        class="btn btn-dark btn-lg mt-4 fw-bold px-5">Book Online</a>
+        </div>
+
+      </div>
+      
     </section>
 
     <section class="container py-5">
@@ -543,7 +605,11 @@
     </section>
 
     <!-- <a href="#request" class="sticky-cta">Request Service</a> -->
-    <a href="tel:3049162052" class="fw-bold sticky-cta">📞 Call for an Estimate</a>
+     <div class="sticky-cta-container">
+  <a href="tel:3049162052" class="cta-button call-btn">📞(304) 916-2052</a>
+  <a href="https://app.squareup.com/appointments/book/x4jp12s4s80fgx/L2DA08QR9AZBE/start?hl=en-US&gei=OoJ-aZX5JovJp84PmJTuuQk&rwg_token=AFd1xnGo3DDrItElV3frlwOg8FByLvpG3h2mrFBjZE4dVapKLmn7vM5gC7P15yd67miPYiVjaiXXdOfeDRYoR29sQLPI-Zbdfw%3D%3D" class="cta-button book-btn">Book Online</a>
+</div>
+    <!-- <a href="tel:3049162052" class="fw-bold sticky-cta">📞 Call for an Estimate</a> -->
     <button class="scroll-top" id="scrollTop">↑</button>
 
     <div id="submitSpinner" class="spinner-overlay">
