@@ -267,6 +267,12 @@
     }
 
     @media (max-width: 768px) {
+
+      .hh-logo
+      {
+        visibility: hidden;
+        width: 55px;
+      }
       .hero {
         padding: 40px 15px !important;
       }
@@ -290,7 +296,7 @@
     }
     .hero {
   /* Replace 'hero-bg.jpg' with your actual image path */
-background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('hero-bg.jpg');  
+background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('hero-bg.png');  
   /* Ensures the image covers the entire area */
   background-size: cover;
   
@@ -351,12 +357,12 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('
 
   <div id="main-content" style="display: none;">
     <section class="hero">
-      <a href="/" target="_blank" class="insta-top-link m-3">
+      <a href="/" target="_blank" class="insta-top-link m-4">
         <!-- <i class="bi bi-instagram"></i> -->
-      <img src="logo.png" width="100" />
+      <img src="logo.png" width="125" />
       </a>
       <button class="theme-toggle" id="themeToggle">☀️</button>
-      <img width="300px" src="logo.png" alt="The Lab Tints & Visuals LLC">
+      <img width="300px" class="hh-logo" src="logo-2.png" alt="The Lab Tints & Visuals LLC">
 
       <h1 class="my-1">The Lab Tints & Visuals LLC</h1>
       <p>Automotive Tint • Residential Tint • Vinyl Wrapping </p>
